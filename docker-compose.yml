@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  app-food:
+    depends_on:
+        - mongodb
+    build: .
+    container_name: app-food
+    environment:
+        - MONGO_URI=mongodb://mongodb/food_db
+    ports:
+        - 8080:8080    
+  
+  mongodb:
+    image: mongo
+    container_name: app-food-mongodb
+    ports:
+        - 23017:23017
+    volumes:
+      - ./db-docker/init-data.js:/docker-entrypoint-initdb.d/init-data.js:ro
+      - mongo-volume:/data/db
+volumes: 
+    mongo-volume: {}
